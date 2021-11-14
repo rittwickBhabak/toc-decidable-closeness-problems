@@ -2,6 +2,7 @@ from django.db import models
 
 class Language(models.Model):
     title = models.CharField(max_length=50)
+    full_name = models.CharField(max_length=60, default='')
 
     def __str__(self):
         return self.title
