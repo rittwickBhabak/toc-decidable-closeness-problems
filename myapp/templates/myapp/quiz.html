@@ -1,0 +1,114 @@
+{% extends 'myapp/base.html' %}
+
+{% block page_style %}
+<style>
+
+table, th, td {
+  border: 1px solid black;
+  text-align:center;
+}
+tr.t1 > th:first-child,
+tr.t1 > td:first-child,
+tr.t2 > th:first-child,
+tr.t2 > td:first-child{
+    width: 500px;
+}
+td{
+    height: 50px;
+}
+td.box{
+    width: 50px;
+}
+.box{
+    cursor: pointer;
+    font-size: 30px;
+}
+.box:hover{
+    background-color: whitesmoke;
+    font-weight: bold;
+}
+</style>
+
+{% endblock page_style %}
+
+{% block page_title %}Tables{% endblock page_title %}
+
+
+{% block page_content %}
+
+<h1>Decidiability</h1>
+<table>
+    <tr class="t1">
+        <th>Problems</th>
+        {% for language in languages %}
+        <th>{{language.title}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in decidiability_table %}
+    <tr class="t1">
+    {% for col in row %}
+        <td class="{% if forloop.first %} row-header {% else %} box {% endif %}">
+            {% if forloop.first %}
+                {{col}}
+            {% else %}
+                <div class="t-data invisible">
+                    <div class="answer">
+                    {% if col.is_decidiable %}
+                        <i class="bi bi-check text-success"></i>
+                    {% else %}
+                        <i class="bi bi-x text-danger"></i>
+                    {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </td>
+    {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<hr>
+<h1>Set Operaitons. Is Closed? </h1>
+<table>
+    <tr class="t2">
+        <th>Operation</th>
+        {% for language in languages %}
+        <th>{{language.title}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in closeness_table %}
+    <tr class="t2">
+    {% for col in row %}
+        <td class="{% if forloop.first %} row-header {% else %} box {% endif %}">
+            {% if forloop.first %}
+                {{col}}
+            {% else %}
+                <div class="t-data invisible">
+                    <div class="answer">
+                    {% if col.is_closed %}
+                        <i class="bi bi-check text-success"></i>
+                    {% else %}
+                        <i class="bi bi-x text-danger"></i>
+                    {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </td>
+    {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+<br>
+
+<script>
+    var boxes = document.querySelectorAll('.box')
+    console.log(boxes.length)
+    boxes.forEach(box=>{
+        box.addEventListener('dblclick', e=>{
+            console.log('clicked')
+            box.querySelector('.t-data').classList.remove('invisible')
+        })
+    })
+
+</script>
+{% endblock page_content %}
