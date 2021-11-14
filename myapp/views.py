@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from myapp.models import Language, Decidiability, Problem, IsClosed, SetOperation
 from django.urls import reverse
+import random
 
 def tables(request):
     languages = Language.objects.all()
@@ -39,8 +40,8 @@ def tables(request):
 
 def quiz(request):
     languages = Language.objects.all()
-    set_operations = SetOperation.objects.all()
     problems = Problem.objects.all()
+    set_operations = SetOperation.objects.all()
     decidiabilities = Decidiability.objects.all()
     closeness = IsClosed.objects.all()
 
@@ -86,3 +87,38 @@ def toggle_decidiability(request, pk):
         object.is_decidiable = not object.is_decidiable
         object.save()
         return redirect(reverse('myapp:table-page'))
+
+def tough_quiz(request):
+    languages = Language.objects.all()
+    problems = Problem.objects.all()
+    set_operations = SetOperation.objects.all()
+    decidiabilities = Decidiability.objects.all()
+    closeness = IsClosed.objects.all()
+
+    question_list = []
+
+    langs = random.sample(set(languages), 3)
+    probs = random.sample(set(problems), 3)
+    ops = random.sample(set(set_operations), 3)
+
+    for lang in langs:
+        for prob in probs:
+            p = Decidiability.objects.filter(language=lang, problem=prob)[0]
+            question = f"Is <u>{prob.title}</u> problem of <u>{lang.title}</u> is decidiable?"
+            if p.is_decidiable:
+                answer = f"<u>{prob.title}</u> problem of <u>{lang.title}</u> is DECIDABLE."
+            else:
+                answer = f"<u>{prob.title}</u> problem of <u>{lang.title}</u> is NOT DECIDABLE."
+            question_list.append({'question': question, 'answer': answer})
+
+    for lang in langs:
+        for op in ops:
+            p = IsClosed.objects.filter(language=lang, set_operation=op)[0]
+            question = f"Is <u>{lang.title}</u> closed under <u>{op.title}</u>?"
+            if p.is_closed:
+                answer = f"<u>{lang.title}</u> closed under <u>{op.title}</u>."
+            else:
+                answer = f"<u>{lang.title}</u> NOT closed under <u>{op.title}</u>."
+            question_list.append({'question': question, 'answer': answer})
+    random.shuffle(question_list)
+    return render(request, 'myapp/quiz2.html', {'question_list': question_list})

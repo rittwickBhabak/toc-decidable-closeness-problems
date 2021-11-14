@@ -1,0 +1,22 @@
+{% extends 'myapp/base.html' %}
+
+
+{% block page_title %}Tough Quiz{% endblock page_title %}
+
+{% block page_content %}
+
+    {% for question in question_list %}
+        <div class="border mb-3 p-3 mt-3">
+            <h3>{{question.question|safe}}</h3>
+            <button class="btn btn-primary mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{forloop.counter}}" aria-expanded="false" aria-controls="collapse-{{forloop.counter}}">
+                View Answer
+            </button>
+            <div class="collapse" id="collapse-{{forloop.counter}}">
+                Answer:
+                <div class="">
+                    {{question.answer|safe}}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock page_content %}
