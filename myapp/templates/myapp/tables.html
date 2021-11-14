@@ -96,9 +96,9 @@ td.box{
                     {% if col.pk == 64 or col.pk == 65 or col.pk == 66 %}
                         <i class="bi bi-question-circle"></i>
                     {% elif col.is_closed %}
-                        a<i class="bi bi-check text-success"></i>
+                        <i class="bi bi-check text-success"></i>
                     {% else %}
-                        b<i class="bi bi-x text-danger"></i>
+                        <i class="bi bi-x text-danger"></i>
                     {% endif %}
                     </div>
                     <!--<form action="{% url 'myapp:toggle-closeness' col.pk %}" method="POST" class="d-none" data-isclosed="{{col.pk}}">-->
