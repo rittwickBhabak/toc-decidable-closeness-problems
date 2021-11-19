@@ -72,20 +72,20 @@ def quiz(request):
         'decidiability_table': decidiability_table,
         'closeness_table': closeness_table,
     })
-   
+
 
 def toggle_closeness(request, pk):
     if request.method=='POST':
         object = IsClosed.objects.filter(pk=pk)[0]
-        object.is_closed = not object.is_closed 
-        object.save()
+        object.is_closed = not object.is_closed
+        # object.save()
         return redirect(reverse('myapp:table-page'))
 
 def toggle_decidiability(request, pk):
     if request.method=='POST':
         object = Decidiability.objects.filter(pk=pk)[0]
         object.is_decidiable = not object.is_decidiable
-        object.save()
+        # object.save()
         return redirect(reverse('myapp:table-page'))
 
 def tough_quiz(request):
