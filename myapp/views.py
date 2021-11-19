@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from myapp.models import Language, Decidiability, Problem, IsClosed, SetOperation
+from myapp.models import Language, Decidiability, Problem, IsClosed, SetOperation, DecidiabilityNote, ClosurePropertyNote
 from django.urls import reverse
 import random
 
@@ -12,6 +12,8 @@ def tables(request):
 
     decidiability_table = []
     closeness_table = []
+
+    
 
     for problem in problems:
         temp_list = [problem.title]
@@ -36,6 +38,8 @@ def tables(request):
         'closeness': closeness,
         'decidiability_table': decidiability_table,
         'closeness_table': closeness_table,
+        'decidiability_notes': DecidiabilityNote.objects.all(),
+        'closureproperty_notes': ClosurePropertyNote.objects.all(),
     })
 
 def quiz(request):
@@ -122,3 +126,16 @@ def tough_quiz(request):
             question_list.append({'question': question, 'answer': answer})
     random.shuffle(question_list)
     return render(request, 'myapp/quiz2.html', {'question_list': question_list})
+
+
+def add_note_dec(request):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        DecidiabilityNote.objects.create(text=text)
+        return redirect(reverse('myapp:table-page'))
+
+def add_note_cp(request):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        ClosurePropertyNote.objects.create(text=text)
+        return redirect(reverse('myapp:table-page'))

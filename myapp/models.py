@@ -34,6 +34,7 @@ class IsClosed(models.Model):
         return f"{self.language.title} is NOT CLOSED under {self.set_operation.title}"
 
 
+
 class Decidiability(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
@@ -44,4 +45,16 @@ class Decidiability(models.Model):
         if self.is_decidiable:
             return f"{self.language.title} is DECIDIABLE under {self.problem.title}"
         return f"{self.language.title} is UNDECIDIABLE under {self.problem.title}"
+
+class DecidiabilityNote(models.Model):
+    text = models.CharField(max_length=500)
+
+    def __str__(self):
+        return f"{self.text[:30]}..."
+
+class ClosurePropertyNote(models.Model):
+    text = models.CharField(max_length=500)
+
+    def __str__(self):
+        return f"{self.text[:30]}..."
         

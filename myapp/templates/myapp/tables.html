@@ -74,6 +74,19 @@ td.box{
     </tr>
     {% endfor %}
 </table>
+<p class="lead">Points to remember:</p>
+<ul>
+{% for note in decidiability_notes %}
+    <li>{{note.text}}</li>
+{% endfor %}
+</ul>
+<form action="{% url 'myapp:new-decidablity-note' %}" method="POST">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="text" placeholder="Add new point">
+        <button class="btn btn-outline-secondary" type="submit" id="">Save</button>
+    </div>
+</form>
 <br>
 <hr>
 <h1>Set Operaitons. Is Closed? </h1>
@@ -116,6 +129,19 @@ td.box{
     </tr>
     {% endfor %}
 </table>
+<p class="lead">Points to remember:</p>
+<ul>
+{% for note in closureproperty_notes %}
+    <li>{{note.text}}</li>
+{% endfor %}
+</ul>
+<form action="{% url 'myapp:new-closureproperty-note' %}" method="POST">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="text" placeholder="Add new point">
+        <button class="btn btn-outline-secondary" type="submit" id="">Save</button>
+    </div>
+</form>
 <br>
 
 <script>
